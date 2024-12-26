@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vmaan API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .endpoint {
+            margin-bottom: 20px;
+        }
+        .endpoint h3 {
+            margin: 10px 0;
+        }
+        .code {
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vmaan API Documentation</h1>
+
+        <h2>Authentication</h2>
+
+        <div class="endpoint">
+            <h3>POST /api/auth/signup</h3>
+            <p><strong>Description:</strong> Sign up a new user.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "name": "string",
+    "email": "string",
+    "password": "string",
+    "mobile": "string",
+    "designation": "string",
+    "role": "string",
+    "empId": "string",
+    "userType": "string",
+    "languagePermissions": ["string"]
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "User registered successfully"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/auth/login</h3>
+            <p><strong>Description:</strong> Authenticate user and provide JWT token.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "email": "string",
+    "password": "string"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "accessToken": "string",
+    "refreshToken": "string"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>GET /api/auth/logout</h3>
+            <p><strong>Description:</strong> Logout the user.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "User logged out successfully"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/auth/token</h3>
+            <p><strong>Description:</strong> Refresh the JWT token.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "refreshToken": "string"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "accessToken": "string"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>GET /api/auth/check</h3>
+            <p><strong>Description:</strong> Check if the session is valid.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "Session is valid"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/auth/enable-2fa</h3>
+            <p><strong>Description:</strong> Enable two-factor authentication for the user.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "userId": "string"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "Two-factor authentication enabled",
+    "qrCode": "base64string"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/auth/verify-2fa</h3>
+            <p><strong>Description:</strong> Verify the two-factor authentication code. If last_logged_in is null then page should redirect to User profile update form</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "userId": "string",
+    "token": "string",
+    "last_logged_in": "string"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "Two-factor authentication verified",
+    "accessToken": "string"
+}
+            </pre>
+        </div>
+
+        <h2>Users</h2>
+
+        <div class="endpoint">
+            <h3>PUT /api/users/profile</h3>
+            <p><strong>Description:</strong> Update user profile.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "name": "string",
+    "mobile": "string",
+    "designation": "string"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "Profile updated successfully",
+    "user": {
+        "_id": "string",
+        "name": "string",
+        "email": "string",
+        "mobile": "string",
+        "designation": "string",
+        "role": "string",
+        "empId": "string",
+        "userType": "string",
+        "languagePermissions": ["string"]
+    }
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/users</h3>
+            <p><strong>Description:</strong> Create a new user. Only accessible by Admin, Manager, and TeamLead.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+            Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+        {
+            "name": "string",
+            "email": "string",
+            "mobile": "string",
+            "designation": "string",
+            "role": "string",
+            "empId": "string",
+            "userType": "string",
+            "report_to": "string (User ID)",
+            "languagePermissions": ["string"]
+        }
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "User created successfully"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>GET /api/users/list</h3>
+            <p><strong>Description:</strong> Get a list of users based on role. Admins can see all users, Managers can see their team, Team Leads can see their team, Executives cannot see the user list.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+[
+    {
+        "_id": "string",
+        "name": "string",
+        "email": "string",
+        "mobile": "string",
+        "designation": "string",
+        "role": "string",
+        "empId": "string",
+        "userType": "string",
+        "languagePermissions": ["string"],
+        "createdBy": "string"
+    }
+]
+            </pre>
+        </div>
+
+
+        <h2>Tasks</h2>
+
+        <div class="endpoint">
+            <h3>POST /api/tasks</h3>
+            <p><strong>Description:</strong> Create a new task. Accessible by Manager, TeamLead, and Executive.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "title": "string",
+    "description": "string",
+    "assignedTo": "string (User ID)"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "Task created successfully"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/tasks/assign</h3>
+            <p><strong>Description:</strong> Assign a task to a user. Accessible by Manager and TeamLead.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "taskId": "string (Task ID)",
+    "assignedTo": "string (User ID)"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "Task assigned successfully"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>PUT /api/tasks/:taskId/status</h3>
+            <p><strong>Description:</strong> Change the status of a task. Accessible by Manager, TeamLead, and Executive.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "status": "string"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "Task status updated successfully"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/tasks/request-approval</h3>
+            <p><strong>Description:</strong> Request approval for a task. Accessible by TeamLead and Executive.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "taskId": "string (Task ID)"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "Approval request sent"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/tasks/:taskId/approve</h3>
+            <p><strong>Description:</strong> Approve a task. Accessible by Manager and TeamLead.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "comments": "string"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "Task approved successfully"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/tasks/:taskId/reject</h3>
+            <p><strong>Description:</strong> Reject a task. Accessible by Manager and TeamLead.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "comments": "string"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "message": "Task rejected successfully"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>GET /api/tasks</h3>
+            <p><strong>Description:</strong> Get all tasks with role-based access control.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+[
+    {
+        "_id": "string",
+        "title": "string",
+        "description": "string",
+        "assignedTo": {
+            "_id": "string",
+            "name": "string"
+        },
+        "createdBy": {
+            "_id": "string",
+            "name": "string"
+        },
+        "status": "string",
+        "approvalRequestedBy": {
+            "_id": "string",
+            "name": "string"
+        },
+        "approvedBy": {
+            "_id": "string",
+            "name": "string"
+        },
+        "rejectedBy": {
+            "_id": "string",
+            "name": "string"
+        },
+        "approvalComments": "string",
+        "rejectionComments": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+    }
+]
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>GET /api/tasks/:taskId</h3>
+            <p><strong>Description:</strong> Get a task by ID. Accessible by Admin, Manager, TeamLead, and Executive.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "_id": "string",
+    "title": "string",
+    "description": "string",
+    "assignedTo": {
+        "_id": "string",
+        "name": "string"
+    },
+    "createdBy": {
+        "_id": "string",
+        "name": "string"
+    },
+    "status": "string",
+    "approvalRequestedBy": {
+        "_id": "string",
+        "name": "string"
+    },
+    "approvedBy": {
+        "_id": "string",
+        "name": "string"
+    },
+    "rejectedBy": {
+        "_id": "string",
+        "name": "string"
+    },
+    "approvalComments": "string",
+    "rejectionComments": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>PUT /api/tasks/:taskId</h3>
+            <p><strong>Description:</strong> Update a task. Accessible by Admin, Manager, TeamLead, and the task creator (if not approved yet).</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+            Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+                {
+                    "title": "string",
+                    "description": "string"
+                }
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+            {
+                "message": "Task updated successfully",
+                "task": {
+                    "_id": "string",
+                    "title": "string",
+                    "description": "string",
+                    ...
+                }
+            }
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>DELETE /api/tasks/:taskId</h3>
+            <p><strong>Description:</strong> Delete a task. Accessible by Admin and Manager.</p>
+            <p><strong>Request Headers:</strong></p>
+            <pre class="code">
+                Authorization: Bearer &lt;accessToken&gt;
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+                {
+                    "message": "Task deleted successfully"
+                }
+            </pre>
+        </div>
+    </div>
+</body>
+</html>

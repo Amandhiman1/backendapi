@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .endpoint {
+            margin-bottom: 20px;
+        }
+        .endpoint h3 {
+            margin: 10px 0;
+        }
+        .code {
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flight API Documentation</h1>
+
+        <div class="endpoint">
+            <h3>POST /api/reports/flights-by-destination-type</h3>
+            <p><strong>Description:</strong> Fetch flights by destination type (city, country, or continent).</p>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+ {
+     "query": {
+       "%city2%": "Mumbai",
+       "%country2%": "India",
+       "%continent2": "Asia"
+     },
+     "flightsNumber": 5,
+     "lang": "en"
+   }
+   
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "flights": [...],
+    "queryString": {...}
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/reports/fastest-flight</h3>
+            <p><strong>Description:</strong> Fetch the fastest flight between the specified origin and destination.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "query": {
+        "%city%": "Delhi",
+        "%city2%": "Mumbai"
+    },
+    "flightsNumber": 5,
+    "lang": "en"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "flights": [...],
+    "queryString": {...}
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/reports/longest-flight</h3>
+            <p><strong>Description:</strong> Fetch the longest flight between the specified origin and destination.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "query": {
+        "%city%": "New York",
+        "%city2%": "London"
+    },
+    "flightsNumber": 5,
+    "lang": "en"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "flights": [...],
+    "queryString": {...}
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/reports/connecting-flights</h3>
+            <p><strong>Description:</strong> Fetch flights with one or more stops between the specified origin and destination.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "query": {
+        "%city%": "Delhi",
+        "%city2%": "New York"
+    },
+    "flightsNumber": 5,
+    "lang": "en"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "connectingFlights": [...],
+    "queryString": {...}
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/reports/flights-from-location</h3>
+            <p><strong>Description:</strong> Fetch flights departing from a specific city, country, or continent.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "query": {
+        "%city%": "Mumbai"
+    },
+    "flightsNumber": 5,
+    "lang": "en"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre class="code">
+{
+    "flights": [...],
+    "queryString": {...}
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>POST /api/reports/flights-to-city</h3>
+            <p><strong>Description:</strong> Fetch one-way or return flights to a specified city.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre class="code">
+{
+    "query": {
+        "%city%": "Delhi",
+        "%city2%": "Mumbai"
+    },
+    "flightsNumber": 5,
+    "lang": "en",
+    "type": "one-way"
+}
+            </pre>
+            <p><strong>Response (One-Way):</strong></p>
+            <pre class="code">
+{
+    "flights": [...],
+    "queryString": {...}
+}
+            </pre>
+            <p><strong>Response (Return):</strong></p>
+            <pre class="code">
+{
+    "flights": {
+        "outboundFlights": [...],
+        "returnFlights": [...]
+    },
+    "queryString": {...}
+}
+            </pre>
+        </div>
+    </div>
+</body>
+</html>
