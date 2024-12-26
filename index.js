@@ -12,7 +12,7 @@ const crypto = require("crypto");
 
 
 var corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:3001", "https://flight-project-five.vercel.app"],
+  origin: ["http://localhost:3000", "http://localhost:3001", "https://flight-orpin.vercel.app"],
   credentials: true
 };
 
