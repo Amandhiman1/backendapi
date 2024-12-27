@@ -12,7 +12,7 @@ const crypto = require("crypto");
 
 
 var corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:3001", "https://flight-liard.vercel.app/"],
+  origin: ["http://localhost:3000", "http://localhost:3001", "https://flight-liard.vercel.app"],
   credentials: true
 };
 
