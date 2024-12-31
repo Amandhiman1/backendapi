@@ -6,8 +6,7 @@ const User = require('../models/user.model');
 // Authenticate JWT token
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
-    console.log(authHeader);
-    console.log('aman');
+   
     if (!authHeader) return res.status(401).send({message: 'Unauthorized'});
 
     const token = authHeader.split(' ')[1];
