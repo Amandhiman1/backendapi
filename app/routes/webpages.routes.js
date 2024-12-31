@@ -23,13 +23,13 @@ module.exports = app => {
   router.get("/:id", webpages.findOne);
 
   // Update a Tutorial with id
-  router.put("/:id", authenticateToken, webpages.update);
+  router.put("/:id", webpages.update);
 
   // Delete a Tutorial with id
-  router.delete("/:id", authenticateToken, webpages.delete);
+  router.delete("/:id", webpages.delete);
 
   // Create a new Tutorial
-  router.delete("/", authenticateToken, webpages.deleteAll);
+  router.delete("/", webpages.deleteAll);
 
   app.use("/api/webpages", router);
 };
